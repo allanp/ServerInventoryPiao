@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using ServerInventoryPiao.Views;
 using ServerInventoryPiao.ViewModels;
+using ServerInventoryPiao.Controllers;
 
 namespace ServerInventoryPiao
 {
@@ -21,7 +22,7 @@ namespace ServerInventoryPiao
             base.OnStartup(e);
 
             _mainView = new MainWindow();
-            _mainView.DataContext = new MainViewModel();
+            _mainView.DataContext = new MainViewModel(new DataCenterRepository());
             _mainView.Show();
         }
 

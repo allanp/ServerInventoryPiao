@@ -11,9 +11,9 @@ namespace ServerInventoryPiao.ViewModels
     {
         public const string TitlePropertyName = "Title";
 
-        private static DataCenterRepository _dataCenterRepository;
+        private DataCenterRepository _dataCenterRepository;
 
-        public static readonly MainController MC = new MainController(_dataCenterRepository);
+        private MainController _mainController;
 
         private string _title;
 
@@ -36,17 +36,24 @@ namespace ServerInventoryPiao.ViewModels
 
         public DataCenterListViewModel DataCenters { get; set; }
 
-        public MainViewModel()
+
+
+
+        public MainViewModel(DataCenterRepository dataCenterRepository)
         {
-            LoadCommand = MC.LoadCommand;
-            SaveCommand = MC.SaveCommand;
-            AboutCommand = MC.AboutCommand;
+            _dataCenterRepository = dataCenterRepository;
 
-            DataCenters = new DataCenterListViewModel(MC.LoadDataCenter());
-            DataCenters.AddNewCommand = MC.AddCommand;
-            DataCenters.RemoveCommand = MC.RemoveCommand;
+            _mainController = new MainController(_dataCenterRepository);
 
-            Title = MC.Title;
+            LoadCommand = _mainController.LoadCommand;
+            SaveCommand = _mainController.SaveCommand;
+            AboutCommand = _mainController.AboutCommand;
+
+            DataCenters = new DataCenterListViewModel(_mainController.LoadDataCenter());
+            DataCenters.AddNewCommand = _mainController.AddCommand;
+            DataCenters.RemoveCommand = _mainController.RemoveCommand;
+
+            Title = _mainController.Title;
         }
     }
 }

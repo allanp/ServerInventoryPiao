@@ -5,26 +5,6 @@ using Microsoft.Win32;
 
 namespace ServerInventoryPiao.Views
 {
-    public interface IDialogView : IView
-    {
-        bool IsVisible { get; }
-        bool? ShowDialog();
-        bool? DialogResult { get; }
-        void Close();
-        event CancelEventHandler Closing;
-        event EventHandler Closed;
-    }
-
-    public enum Mode { None, Open, Save }
-
-    public interface IFileDialogView : IDialogView
-    {
-        Mode Mode { get; set; }
-        string DefaultExt { get; set; }
-        string[] FileNames { get; set; }
-        event Action<object, string[]> FileNamesChanged;
-    }
-
     public class FileDialogView : IFileDialogView, INotifyPropertyChanged
     {
         public const string DialogResultPropertyName = "DialogResult";

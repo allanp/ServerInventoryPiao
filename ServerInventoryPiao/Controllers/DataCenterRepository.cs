@@ -28,6 +28,11 @@ namespace ServerInventoryPiao.Controllers
 
         public event EventHandler<DataCenterModelAddedEventArgs> CustomerAdded;
 
+
+        public DataCenterRepository() : this(string.Empty)
+        {
+        }
+
         public DataCenterRepository(string dataFileName)
         {
             this._datacenters = LoadDataCenter(dataFileName);
@@ -85,9 +90,10 @@ namespace ServerInventoryPiao.Controllers
 
         private static List<DataCenterModel> LoadDataCenter(string xmlFileName)
         {
-            if (xmlFileName == null) throw new ArgumentNullException("xmlFileName");
+            if (xmlFileName == null || xmlFileName == string.Empty)
+                return new List<DataCenterModel>() { };
 
-            using (Stream stream = GetResourceStream(xmlFileName))
+            using (Stream stream = File.OpenRead(xmlFileName))
             {
                 using (XmlReader xmlReader = new XmlTextReader(stream))
                 {
@@ -135,11 +141,17 @@ namespace ServerInventoryPiao.Controllers
             if (repository._datacenters == null || repository._datacenters.Count == 0)
                 return;
 
-            using (Stream stream = GetResourceStream(filename))
+            if (!File.Exists(filename))
+            {
+                using (File.Create(filename)) { }
+            }
+
+            using (Stream stream = new MemoryStream() )
             {
                 using (XmlWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8))
                 {
-                    XDocument doc = new XDocument("datacenters", from datacenter in repository.GetDataCenters()
+                    XDocument doc = new XDocument(new XElement("datacenters",
+                                                                 from datacenter in repository.GetDataCenters()
                                                                  orderby datacenter.Id
                                                                  select new XElement("datacenter",
                                                                      new XAttribute("id", datacenter.Id),
@@ -168,7 +180,7 @@ namespace ServerInventoryPiao.Controllers
                                                                                      new XAttribute("id", device.Id),
                                                                                      new XAttribute("name", device.Name),
                                                                                      new XAttribute("ipaddress", device.IPAddress),
-                                                                                     new XAttribute("status", device.Status)))))));
+                                                                                     new XAttribute("status", device.Status))))))));
                     doc.Save(filename);
                 }
             }

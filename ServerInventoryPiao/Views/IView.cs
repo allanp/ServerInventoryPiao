@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace ServerInventoryPiao.Views
 {
@@ -15,4 +16,25 @@ namespace ServerInventoryPiao.Views
 
         void Close();
     }
+
+    public interface IDialogView : IView
+    {
+        bool IsVisible { get; }
+        bool? ShowDialog();
+        bool? DialogResult { get; }
+        void Close();
+        event CancelEventHandler Closing;
+        event EventHandler Closed;
+    }
+
+    public enum Mode { None, Open, Save }
+
+    public interface IFileDialogView : IDialogView
+    {
+        Mode Mode { get; set; }
+        string DefaultExt { get; set; }
+        string[] FileNames { get; set; }
+        event Action<object, string[]> FileNamesChanged;
+    }
+
 }
