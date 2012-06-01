@@ -11,13 +11,15 @@ namespace ServerInventoryPiao.Views
         public const string IsEnabledPropertyName = "IsEnabled";
         public const string DataContextPropertyName = "DataContext";
         
-        public const string DefaultExtPropertyName = "DefaultExt"; 
+        public const string DefaultExtPropertyName = "DefaultExt";
+        public const string FilterPropertyName = "Filter"; 
         public const string FileNamesPropertyName = "FileNames";
         public const string IsVisiblePropertyName = "IsVisible";
         
         private Window _owner;
 
         private string _defaultExt;
+        private string _filter;
         private bool? _dialogResult;
         private string[] _fileNames;
         private object _dataContext;
@@ -72,6 +74,19 @@ namespace ServerInventoryPiao.Views
             }
         }
 
+        public string Filter
+        {
+            get { return _filter; }
+            set
+            {
+                if (_filter != value)
+                {
+                    _filter = value;
+                    RaisePropertyChanged(FilterPropertyName);
+                }
+            }
+        }
+
         public event Action<object, string[]> FileNamesChanged;
 
         public FileDialogView(Window owner)
@@ -84,7 +99,7 @@ namespace ServerInventoryPiao.Views
         {
             if (!IsEnabled)
                 return null;
-
+            
             try
             {
                 switch (Mode)
@@ -102,6 +117,7 @@ namespace ServerInventoryPiao.Views
                 }
 
                 dialog.DefaultExt = DefaultExt;
+                dialog.Filter = Filter;
                 IsVisible = true;
 
                 DialogResult = dialog.ShowDialog(_owner);

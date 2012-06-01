@@ -10,13 +10,13 @@ namespace ServerInventoryPiao.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public const string TitlePropertyName = "Title";
-
-        private DataCenterRepository _dataCenterRepository;
-
+        public const string DataCentersPropertyName = "DataCenters";
+        
         private MainController _mainController;
 
         private string _title;
-
+        private DataCenterListViewModel _datacenters;
+        
         public string Title
         {
             get { return _title; }
@@ -30,28 +30,41 @@ namespace ServerInventoryPiao.ViewModels
             }
         }
 
-        public ICommand AboutCommand{get;set;}
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
-
-        public DataCenterListViewModel DataCenters { get; set; }
-
+        
+        public DataCenterListViewModel DataCenters
+        {
+            get
+            {
+                return _datacenters;
+            }
+            set
+            {
+                if (_datacenters != value)
+                {
+                    _datacenters = value;
+                    RaisePropertyChanged(DataCentersPropertyName);
+                }
+            }
+        }
 
 
 
         public MainViewModel(DataCenterRepository dataCenterRepository)
         {
-            _dataCenterRepository = dataCenterRepository;
-
-            _mainController = new MainController(_dataCenterRepository);
+            _mainController = new MainController(dataCenterRepository);
 
             LoadCommand = _mainController.LoadCommand;
             SaveCommand = _mainController.SaveCommand;
-            AboutCommand = _mainController.AboutCommand;
+            
+            _mainController.OnDataCentersLoaded += delegate
+            {
+                DataCenters = new DataCenterListViewModel(_mainController.LoadDataCenter());
 
-            DataCenters = new DataCenterListViewModel(_mainController.LoadDataCenter());
-            DataCenters.AddNewCommand = _mainController.AddCommand;
-            DataCenters.RemoveCommand = _mainController.RemoveCommand;
+                DataCenters.AddNewCommand = _mainController.AddCommand;
+                DataCenters.RemoveCommand = _mainController.RemoveCommand;
+            };
 
             Title = _mainController.Title;
         }

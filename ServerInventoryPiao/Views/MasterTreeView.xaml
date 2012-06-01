@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="ServerInventoryPiao.Views.MasterTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:e="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+            xmlns:views="clr-namespace:ServerInventoryPiao.Views"
+            xmlns:vm="clr-namespace:ServerInventoryPiao.ViewModels"
+            xmlns:model="clr-namespace:ServerInventoryPiao.Models"
+             xmlns:res="clr-namespace:ServerInventoryPiao.Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+
+        <DataTemplate x:Key="TreeViewItemTemplate" >
+            <StackPanel Orientation="Horizontal" Margin="4">
+                <TextBlock Margin="2">
+                    <Run Text="{Binding Name}" />
+                    <Run Text="{Binding Id, StringFormat=({0})}" />
+                </TextBlock>
+                <StackPanel.Effect>
+                    <DropShadowEffect BlurRadius="2" Color="LightGray" Opacity=".2" />
+                </StackPanel.Effect>
+            </StackPanel>
+        </DataTemplate>
+        
+        <HierarchicalDataTemplate DataType="{x:Type model:DataCenterModel}" ItemsSource="{Binding Racks}">
+            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}"/>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type model:RackModel}" ItemsSource="{Binding Devices}">
+            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}"/>
+        </HierarchicalDataTemplate>
+
+        <DataTemplate DataType="{x:Type model:DeviceModel}">
+            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}"/>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid>
+        <TreeView ItemsSource="{Binding }">
+            <e:Interaction.Behaviors>
+                <res:BindableSelectedItemBehaviour 
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+            </e:Interaction.Behaviors>
+        </TreeView>
+    </Grid>
+</UserControl>

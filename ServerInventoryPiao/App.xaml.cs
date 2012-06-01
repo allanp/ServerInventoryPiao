@@ -23,6 +23,7 @@ namespace ServerInventoryPiao
 
             _mainView = new MainWindow();
             _mainView.DataContext = new MainViewModel(new DataCenterRepository());
+
             _mainView.Show();
         }
 

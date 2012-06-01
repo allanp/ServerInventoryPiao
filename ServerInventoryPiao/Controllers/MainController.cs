@@ -26,12 +26,13 @@ namespace ServerInventoryPiao.Controllers
 
         public ICommand LoadCommand { get; set; }
         public ICommand SaveCommand { get; set; }
-        public ICommand AboutCommand { get; set; }
+
+        public EventHandler OnDataCentersLoaded;
         
         public ICommand AddCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
 
-        internal MainController()
+        private MainController()
         {
             Title = "Server Inventory";
             LoadCommand = new RelayCommand(OnLoad, CanLoad);
@@ -41,14 +42,14 @@ namespace ServerInventoryPiao.Controllers
             RemoveCommand = new RelayCommand<DataCenterModel>(OnRemove, CanRemove);
         }
 
-        public MainController(DataCenterRepository dataCenterRepository)
+        public MainController(DataCenterRepository dataCenterRepository) : this()
         {
             this._dataCenterRepository = dataCenterRepository;
         }
 
         internal List<DataCenterModel> LoadDataCenter()
         {
-            return _dataCenterRepository != null ? _dataCenterRepository.GetDataCenters() : new List<DataCenterModel>();
+            return _dataCenterRepository.GetDataCenters();
         }
 
         public void OnLoad()
@@ -64,6 +65,8 @@ namespace ServerInventoryPiao.Controllers
                 if (_fileDialog.ShowDialog() == true && _fileDialog.FileNames != null && _fileDialog.FileNames.Length > 0)
                 {
                     this._dataCenterRepository = new DataCenterRepository(_fileDialog.FileNames[0]);
+                    if (OnDataCentersLoaded != null)
+                        OnDataCentersLoaded(this, EventArgs.Empty);
                 }
             }
             finally
@@ -83,7 +86,7 @@ namespace ServerInventoryPiao.Controllers
         }
         public bool CanSave()
         {
-            return this._dataCenterRepository != null;
+            return this._dataCenterRepository != null && _dataCenterRepository.GetDataCenters().Count > 0;
         }
 
         public void OnAddNew(DataCenterModel newDataCenterModel)

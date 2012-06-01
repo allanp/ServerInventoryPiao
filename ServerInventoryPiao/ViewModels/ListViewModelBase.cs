@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace ServerInventoryPiao.ViewModels
 {
-    public abstract class ListViewModelBase<ViewModel> : ViewModelBase
+    public abstract class ListViewModelBase<ViewModel> : ViewModelBase, IEnumerable<ViewModel>
     {
         public const string AddNewCommandPropertyName = "AddNewCommand";
         public const string RemoveCommandPropertyName = "RemoveCommand";
@@ -17,7 +18,6 @@ namespace ServerInventoryPiao.ViewModels
         private ICommand _addNewCommand;
         private ICommand _removeCommand;
         private IEnumerable<ViewModel> _collection;
-        private ObservableCollection<ViewModel> _selectedItems;
 
         public ICommand AddNewCommand
         {
@@ -58,17 +58,30 @@ namespace ServerInventoryPiao.ViewModels
             }
         }
 
-        public ObservableCollection<ViewModel> SelectedItems
+
+        public const string SelectedItemPropertyName = "SelectedItem";
+        private object _selectedItem;
+        public object SelectedItem
         {
-            get { return _selectedItems; }
+            get { return _selectedItem; }
             set
             {
-                if (_selectedItems != value)
+                if (_selectedItem != value)
                 {
-                    _selectedItems = value;
-                    RaisePropertyChanged(SelectedItemsPropertyName);
+                    _selectedItem = value;
+                    RaisePropertyChanged(SelectedItemPropertyName);
                 }
             }
+        }
+
+        public IEnumerator<ViewModel> GetEnumerator()
+        {
+            return Items != null ? Items.GetEnumerator() : null;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Items != null ? Items.GetEnumerator() : null;
         }
     }
 }

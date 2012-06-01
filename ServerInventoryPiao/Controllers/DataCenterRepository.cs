@@ -12,22 +12,22 @@ using ServerInventoryPiao.Views;
 
 namespace ServerInventoryPiao.Controllers
 {
-    public class DataCenterModelAddedEventArgs : EventArgs
+    public class DataCenterModelEventArgs : EventArgs
     {
-        public DataCenterModelAddedEventArgs(DataCenterModel newDatacenter)
+        public DataCenterModelEventArgs(DataCenterModel datacenter)
         {
-            this.NewDataCenter = newDatacenter;
+            this.DataCenter = datacenter;
         }
 
-        public DataCenterModel NewDataCenter { get; private set; }
+        public DataCenterModel DataCenter { get; private set; }
     }
 
     public class DataCenterRepository
     {
         List<DataCenterModel> _datacenters;
 
-        public event EventHandler<DataCenterModelAddedEventArgs> CustomerAdded;
-
+        public event EventHandler<DataCenterModelEventArgs> DataCenterAdded;
+        public event EventHandler<DataCenterModelEventArgs> DataCenterRemoved;
 
         public DataCenterRepository() : this(string.Empty)
         {
@@ -59,8 +59,8 @@ namespace ServerInventoryPiao.Controllers
             {
                 _datacenters.Add(datacenter);
 
-                if (this.CustomerAdded != null)
-                    this.CustomerAdded(this, new DataCenterModelAddedEventArgs(datacenter));
+                if (this.DataCenterAdded != null)
+                    this.DataCenterAdded(this, new DataCenterModelEventArgs(datacenter));
             }
         }
 
@@ -68,7 +68,12 @@ namespace ServerInventoryPiao.Controllers
         {
             if (datacenter == null) throw new ArgumentNullException("datacenter");
 
-            return _datacenters != null && _datacenters.Remove(datacenter);
+            bool removed = _datacenters != null && _datacenters.Remove(datacenter);
+            if (removed && DataCenterRemoved != null)
+            {
+                DataCenterRemoved(this, new DataCenterModelEventArgs(datacenter));
+            }
+            return removed;
         }
 
         public void Save()
@@ -76,6 +81,7 @@ namespace ServerInventoryPiao.Controllers
             FileDialogView dialogView = new FileDialogView(null)
             {
                 DefaultExt = "xml",
+                Filter = "|*.xml",
                 IsEnabled = true,
                 Mode = Mode.Save
             };
@@ -91,7 +97,7 @@ namespace ServerInventoryPiao.Controllers
         private static List<DataCenterModel> LoadDataCenter(string xmlFileName)
         {
             if (xmlFileName == null || xmlFileName == string.Empty)
-                return new List<DataCenterModel>() { };
+                return new List<DataCenterModel>();
 
             using (Stream stream = File.OpenRead(xmlFileName))
             {
@@ -157,6 +163,7 @@ namespace ServerInventoryPiao.Controllers
                                                                      new XAttribute("id", datacenter.Id),
                                                                      new XAttribute("name", datacenter.Name),
                                                                      new XAttribute("phone", datacenter.Phone),
+                                                                     new XAttribute("address", datacenter.Address),
                                                                      new XElement("contactpeople",
                                                                          from person in datacenter.ContactPeople
                                                                          orderby person.LastName
@@ -185,17 +192,5 @@ namespace ServerInventoryPiao.Controllers
                 }
             }
         }
-
-        private static Stream GetResourceStream(string resourceFile)
-        {
-            Uri uri = new Uri(resourceFile, UriKind.RelativeOrAbsolute);
-
-            StreamResourceInfo info = Application.GetResourceStream(uri);
-            if (info == null || info.Stream == null)
-                throw new ApplicationException("Missing resource file: " + resourceFile);
-
-            return info.Stream;
-        }
-
     }
 }
