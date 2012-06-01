@@ -13,9 +13,50 @@
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="Grid.IsSharedSizeScope" Value="True"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <DataTemplate DataType="{x:Type vm:RackListViewModel}">
+        <ListView ItemsSource="{Binding }">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path=Id}" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding  Path=Name}" />
+                    <GridViewColumn Header="Floor" DisplayMemberBinding="{Binding Path=Floor}" />
+                    <GridViewColumn Header="Position" DisplayMemberBinding="{Binding Path=Position}" />
+                    <GridViewColumn Header="Devices" DisplayMemberBinding="{Binding Path=Devices.Count}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:DeviceListViewModel}">
+        <ListView ItemsSource="{Binding }">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path=Id}" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
+                    <GridViewColumn Header="IP Adress" DisplayMemberBinding="{Binding Path=IPAddress}" />
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path=Status}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PersonListViewModel}">
+        <StackPanel>
+            <ListView ItemsSource="{Binding }">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=FirstName}" />
+                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=LastName}" />
+                        <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Path=Phone}" />
+                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Path=Email}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type vm:DataCenterViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -28,7 +69,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
             <!--
@@ -64,7 +104,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <!--
@@ -98,7 +137,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <!--
