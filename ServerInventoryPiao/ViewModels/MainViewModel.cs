@@ -43,13 +43,12 @@ namespace ServerInventoryPiao.ViewModels
             {
                 if (_datacenters != value)
                 {
+                    _datacenters = null;
                     _datacenters = value;
                     RaisePropertyChanged(DataCentersPropertyName);
                 }
             }
         }
-
-
 
         public MainViewModel(DataCenterRepository dataCenterRepository)
         {
@@ -61,9 +60,6 @@ namespace ServerInventoryPiao.ViewModels
             _mainController.OnDataCentersLoaded += delegate
             {
                 DataCenters = new DataCenterListViewModel(_mainController.LoadDataCenter());
-
-                DataCenters.AddNewCommand = _mainController.AddCommand;
-                DataCenters.RemoveCommand = _mainController.RemoveCommand;
             };
 
             Title = _mainController.Title;

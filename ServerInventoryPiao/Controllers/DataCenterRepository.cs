@@ -45,7 +45,7 @@ namespace ServerInventoryPiao.Controllers
 
         public bool ConatinsDataCenter(DataCenterModel datacenter)
         {
-            if (datacenter == null) throw new ArgumentNullException("datacenter");
+            // if (datacenter == null) throw new ArgumentNullException("datacenter");
 
             return _datacenters.Contains(datacenter);
         }
@@ -160,34 +160,34 @@ namespace ServerInventoryPiao.Controllers
                                                                  from datacenter in repository.GetDataCenters()
                                                                  orderby datacenter.Id
                                                                  select new XElement("datacenter",
-                                                                     new XAttribute("id", datacenter.Id),
-                                                                     new XAttribute("name", datacenter.Name),
-                                                                     new XAttribute("phone", datacenter.Phone),
-                                                                     new XAttribute("address", datacenter.Address),
+                                                                     new XAttribute("id", datacenter.Id ?? ""),
+                                                                     new XAttribute("name", datacenter.Name ?? ""),
+                                                                     new XAttribute("phone", datacenter.Phone ?? ""),
+                                                                     new XAttribute("address", datacenter.Address ?? ""),
                                                                      new XElement("contactpeople",
                                                                          from person in datacenter.ContactPeople
                                                                          orderby person.LastName
                                                                          select new XElement("person",
-                                                                             new XAttribute("firstname", person.FirstName),
-                                                                             new XAttribute("lastname", person.LastName),
-                                                                             new XAttribute("phone", person.Phone),
-                                                                             new XAttribute("email", person.Email))),
+                                                                             new XAttribute("firstname", person.FirstName ?? ""),
+                                                                             new XAttribute("lastname", person.LastName ?? ""),
+                                                                             new XAttribute("phone", person.Phone ?? ""),
+                                                                             new XAttribute("email", person.Email ?? ""))),
                                                                      new XElement("racks",
                                                                          from rack in datacenter.Racks
                                                                          orderby rack.Id
                                                                          select new XElement("rack",
-                                                                             new XAttribute("id", rack.Id),
-                                                                             new XAttribute("name", rack.Name),
-                                                                             new XAttribute("floor", rack.Floor),
-                                                                             new XAttribute("position", rack.Position),
+                                                                             new XAttribute("id", rack.Id ?? ""),
+                                                                             new XAttribute("name", rack.Name ?? ""),
+                                                                             new XAttribute("floor", rack.Floor ?? ""),
+                                                                             new XAttribute("position", rack.Position ?? ""),
                                                                              new XElement("devices",
                                                                                  from device in rack.Devices
                                                                                  orderby device.Id
                                                                                  select new XElement("device",
-                                                                                     new XAttribute("id", device.Id),
-                                                                                     new XAttribute("name", device.Name),
-                                                                                     new XAttribute("ipaddress", device.IPAddress),
-                                                                                     new XAttribute("status", device.Status))))))));
+                                                                                     new XAttribute("id", device.Id ?? ""),
+                                                                                     new XAttribute("name", device.Name ?? ""),
+                                                                                     new XAttribute("ipaddress", device.IPAddress ?? ""),
+                                                                                     new XAttribute("status", device.Status ?? ""))))))));
                     doc.Save(filename);
                 }
             }

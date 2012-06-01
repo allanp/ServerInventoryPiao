@@ -23,5 +23,15 @@ namespace ServerInventoryPiao.Views
         {
             InitializeComponent();
         }
+
+        private void TreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem item = sender as TreeViewItem;
+            if (item != null)
+            {
+                item.Focus();
+                // e.Handled = true;
+            }
+        }
     }
 }

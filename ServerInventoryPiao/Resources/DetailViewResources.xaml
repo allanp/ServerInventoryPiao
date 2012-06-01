@@ -16,7 +16,7 @@
         <Setter Property="Grid.IsSharedSizeScope" Value="True"/>
     </Style>
 
-    <DataTemplate DataType="{x:Type model:DataCenterModel}">
+    <DataTemplate DataType="{x:Type vm:DataCenterViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -52,7 +52,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type model:RackModel}">
+    <DataTemplate DataType="{x:Type vm:RackViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -87,7 +87,7 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type model:DeviceModel}">
+    <DataTemplate DataType="{x:Type vm:DeviceViewModel}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

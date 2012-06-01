@@ -22,6 +22,7 @@ namespace ServerInventoryPiao
             base.OnStartup(e);
 
             _mainView = new MainWindow();
+            
             _mainView.DataContext = new MainViewModel(new DataCenterRepository());
 
             _mainView.Show();
@@ -33,6 +34,9 @@ namespace ServerInventoryPiao
 
             if (_mainView != null)
                 _mainView.Close();
+
+            _mainView.DataContext = null;
+            _mainView = null;
         }
     }
 }

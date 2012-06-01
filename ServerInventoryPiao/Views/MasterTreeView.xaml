@@ -24,25 +24,62 @@
             </StackPanel>
         </DataTemplate>
         
-        <HierarchicalDataTemplate DataType="{x:Type model:DataCenterModel}" ItemsSource="{Binding Racks}">
-            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}"/>
+        <HierarchicalDataTemplate DataType="{x:Type vm:DataCenterViewModel}" ItemsSource="{Binding Racks}">
+            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}">
+                <ContentControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Rack">
+                            <MenuItem Header="Add" Command="{Binding AddNewRackCommand}" />
+                            <MenuItem Header="Remove" Command="{Binding RemoveRackCommand}" CommandParameter="{Binding }"/>
+                        </MenuItem>
+                        <MenuItem Header="Person">
+                            <MenuItem Header="Add" Command="{Binding AddNewPersonCommand}" />
+                            <MenuItem Header="Remove" Command="{Binding RemovePersonCommand}" CommandParameter="{Binding }"/>
+                        </MenuItem>
+                    </ContextMenu>
+                </ContentControl.ContextMenu>
+            </ContentControl>
         </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type model:RackModel}" ItemsSource="{Binding Devices}">
-            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}"/>
+        <HierarchicalDataTemplate DataType="{x:Type vm:RackViewModel}" ItemsSource="{Binding Devices}">
+            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}">
+                <ContentControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add a new device" Command="{Binding AddNewCommand}" />
+                        <MenuItem Header="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding }"/>
+                    </ContextMenu>
+                </ContentControl.ContextMenu>
+            </ContentControl>
         </HierarchicalDataTemplate>
 
-        <DataTemplate DataType="{x:Type model:DeviceModel}">
-            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}"/>
+        <DataTemplate DataType="{x:Type vm:DeviceViewModel}">
+            <ContentControl Content="{Binding }" ContentTemplate="{StaticResource TreeViewItemTemplate}">
+                <ContentControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding }"/>
+                    </ContextMenu>
+                </ContentControl.ContextMenu>
+            </ContentControl>
         </DataTemplate>
 
     </UserControl.Resources>
     <Grid>
         <TreeView ItemsSource="{Binding }">
             <e:Interaction.Behaviors>
-                <res:BindableSelectedItemBehaviour 
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+                <res:BindableSelectedItemBehaviour SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
             </e:Interaction.Behaviors>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeView_PreviewMouseRightButtonDown"/>
+                    <Setter Property="IsExpanded" Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add a new DataCenter" Command="{Binding AddNewCommand}" />
+                    <MenuItem Header="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedItem}" />
+                </ContextMenu>
+            </TreeView.ContextMenu>
         </TreeView>
     </Grid>
 </UserControl>

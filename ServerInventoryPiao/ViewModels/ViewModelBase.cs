@@ -16,4 +16,14 @@ namespace ServerInventoryPiao.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+    public abstract class ViewModelBase<Model> : ViewModelBase
+    {
+        protected Model _model;
+        protected ViewModelBase(Model model)
+        {
+            _model = model;
+        }
+    }
+
 }

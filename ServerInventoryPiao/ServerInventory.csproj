@@ -66,13 +66,14 @@
     <Compile Include="Controllers\IService.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\RelayCommand.cs" />
-    <Compile Include="Models\DataCenterModel.cs" />
+    <Compile Include="Models\Models.cs" />
     <Compile Include="Resources\BindableSelectedItemBehaviour.cs" />
-    <Compile Include="ViewModels\DataCenterListViewModel.cs" />
+    <Compile Include="ViewModels\ListViewModels.cs" />
     <Compile Include="Controllers\DataCenterRepository.cs" />
     <Compile Include="ViewModels\ListViewModelBase.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModels.cs" />
     <Compile Include="Views\DetailView.xaml.cs">
       <DependentUpon>DetailView.xaml</DependentUpon>
     </Compile>

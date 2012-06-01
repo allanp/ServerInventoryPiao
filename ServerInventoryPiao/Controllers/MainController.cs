@@ -37,9 +37,6 @@ namespace ServerInventoryPiao.Controllers
             Title = "Server Inventory";
             LoadCommand = new RelayCommand(OnLoad, CanLoad);
             SaveCommand = new RelayCommand(OnSave, CanSave);
-
-            AddCommand = new RelayCommand<DataCenterModel>(OnAddNew, CanAddNew);
-            RemoveCommand = new RelayCommand<DataCenterModel>(OnRemove, CanRemove);
         }
 
         public MainController(DataCenterRepository dataCenterRepository) : this()
@@ -86,28 +83,7 @@ namespace ServerInventoryPiao.Controllers
         }
         public bool CanSave()
         {
-            return this._dataCenterRepository != null && _dataCenterRepository.GetDataCenters().Count > 0;
+            return this._dataCenterRepository != null;
         }
-
-        public void OnAddNew(DataCenterModel newDataCenterModel)
-        {
-            this._dataCenterRepository.AddDataCenter(newDataCenterModel);
-        }
-        public bool CanAddNew(DataCenterModel newDataCenterModel)
-        {
-            return newDataCenterModel != null && this._dataCenterRepository != null;
-        }
-
-        public void OnRemove(DataCenterModel datacenter)
-        {
-            if (this._dataCenterRepository != null)
-                this._dataCenterRepository.RemoveDataCenter(datacenter);
-        }
-        public bool CanRemove(DataCenterModel datacenter)
-        {
-            return this._dataCenterRepository != null &&
-                   this._dataCenterRepository.ConatinsDataCenter(datacenter);
-        }
-
     }
 }

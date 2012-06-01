@@ -108,16 +108,18 @@ namespace ServerInventoryPiao.Views
                         return null;
                     case Mode.Open:
                         dialog = new OpenFileDialog();
+                        dialog.Filter = Filter;
                         break;
                     case Mode.Save:
                         dialog = new SaveFileDialog();
+                        dialog.FileName = "default";
                         break;
                     default:
                         return null;
                 }
 
                 dialog.DefaultExt = DefaultExt;
-                dialog.Filter = Filter;
+
                 IsVisible = true;
 
                 DialogResult = dialog.ShowDialog(_owner);
