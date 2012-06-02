@@ -23,6 +23,12 @@ namespace ServerInventoryPiao.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
+
+        public ModelBase()
+        {
+            Id = "Unknown Id";
+            Name = "Undefined Name";
+        }
     }
 
     public partial class DataCenterModel : ModelBase

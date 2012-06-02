@@ -263,10 +263,8 @@ namespace ServerInventoryPiao.ViewModels
             }
         }
 
-        public const string AddNewCommandPropertyName = "AddNewCommand";
-        public const string RemoveCommandPropertyName = "RemoveCommand";
+        public const string AddNewCommandPropertyName = "AddNewCommand"; 
         private ICommand _addNewCommand;
-        private ICommand _removeCommand;
         public ICommand AddNewCommand
         {
             get { return _addNewCommand; }
@@ -279,6 +277,9 @@ namespace ServerInventoryPiao.ViewModels
                 }
             }
         }
+
+        public const string RemoveCommandPropertyName = "RemoveCommand";
+        private ICommand _removeCommand;
         public ICommand RemoveCommand
         {
             get { return _removeCommand; }
@@ -291,7 +292,6 @@ namespace ServerInventoryPiao.ViewModels
                 }
             }
         }
-
     }
 
     public class DeviceViewModel : ModelBaseViewModel<DeviceModel>

@@ -6,19 +6,22 @@ using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Collections;
 using System.Linq.Expressions;
+using System.Collections.Specialized;
 
 namespace ServerInventoryPiao.ViewModels
 {
-    public abstract class ListViewModelBase<Model, ViewModel> : ViewModelBase, IEnumerable<ViewModel>
+    public abstract class ListViewModelBase<Model, ViewModel> : ViewModelBase, IEnumerable<ViewModel>, INotifyCollectionChanged
     {
         public const string ItemsPropertyName = "Items";
-        public const string SelectedItemsPropertyName = "SelectedItems";
-
+        
         private ObservableCollection<ViewModel> _collection;
 
         public ObservableCollection<ViewModel> Items
         {
-            get { return _collection; }
+            get
+            {
+                return _collection;
+            }
             set
             {
                 if (_collection != value)
@@ -64,11 +67,20 @@ namespace ServerInventoryPiao.ViewModels
             if (this.Items == null)
                 this.Items = new ObservableCollection<ViewModel>();
             this.Items.Add(viewModel);
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, viewModel));
+            }
         }
 
         public bool Remove(ViewModel viewModel)
         {
-            return this.Items.Remove(viewModel);
+            bool result = this.Items.Remove(viewModel);
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, viewModel));
+            }
+            return result;
         }
 
         public int Count
@@ -77,7 +89,7 @@ namespace ServerInventoryPiao.ViewModels
         }
 
 
-        protected static ObservableCollection<ViewModel> ConvertToListViewMode(IEnumerable<Model> models, Func<Model, ViewModel> convertor)
+        protected static ObservableCollection<ViewModel> ConvertToListViewMode(List<Model> models, Func<Model, ViewModel> convertor, Func<ViewModel, Model> reverse)
         {
             if (models == null) throw new ArgumentNullException("models");
             if (convertor == null) throw new ArgumentNullException("convertor");
@@ -87,7 +99,35 @@ namespace ServerInventoryPiao.ViewModels
                 List<ViewModel> viewModels = new List<ViewModel>();
                 foreach (var m in models)
                     viewModels.Add(convertor(m));
-                return new ObservableCollection<ViewModel>(viewModels);
+
+                var collection = new ObservableCollection<ViewModel>(viewModels);
+
+                collection.CollectionChanged += (sender, e) =>
+                {
+                    if (Object.ReferenceEquals(sender, collection))
+                    {
+                        switch (e.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                                models.Add(reverse((ViewModel)e.NewItems[0]));
+                                break;
+                            case NotifyCollectionChangedAction.Move:
+                                models = (from vm in viewModels select reverse(vm)).ToList();
+                                break;
+                            case NotifyCollectionChangedAction.Remove:
+                                models.Remove(reverse((ViewModel)e.OldItems[0]));
+                                break;
+                            case NotifyCollectionChangedAction.Replace:
+                                break;
+                            case NotifyCollectionChangedAction.Reset:
+                                models = (from vm in viewModels select reverse(vm)).ToList();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                };
+                return collection;
             }
             catch
             {
@@ -97,5 +137,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             // return null;
         }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }

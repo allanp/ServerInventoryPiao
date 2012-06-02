@@ -156,10 +156,15 @@ namespace ServerInventoryPiao.Controllers
             {
                 using (XmlWriter xmlWriter = new XmlTextWriter(stream, Encoding.UTF8))
                 {
-                    XDocument doc = new XDocument(new XElement("datacenters",
-                                                                 from datacenter in repository.GetDataCenters()
+                    var datacenters = repository.GetDataCenters();
+
+                    XDocument doc = new XDocument(datacenters == null ? new XElement("") :
+                                                                new XElement("datacenters",
+                                                                 from datacenter in datacenters
                                                                  orderby datacenter.Id
-                                                                 select new XElement("datacenter",
+                                                                 select
+                                                                 datacenter == null ? new XElement("") :
+                                                                 new XElement("datacenter",
                                                                      new XAttribute("id", datacenter.Id ?? ""),
                                                                      new XAttribute("name", datacenter.Name ?? ""),
                                                                      new XAttribute("phone", datacenter.Phone ?? ""),
@@ -167,23 +172,31 @@ namespace ServerInventoryPiao.Controllers
                                                                      new XElement("contactpeople",
                                                                          from person in datacenter.ContactPeople
                                                                          orderby person.LastName
-                                                                         select new XElement("person",
+                                                                         select
+                                                                         person == null ? new XElement("") :
+                                                                         new XElement("person",
                                                                              new XAttribute("firstname", person.FirstName ?? ""),
                                                                              new XAttribute("lastname", person.LastName ?? ""),
                                                                              new XAttribute("phone", person.Phone ?? ""),
                                                                              new XAttribute("email", person.Email ?? ""))),
+                                                                     datacenter.Racks == null ? new XElement("") :
                                                                      new XElement("racks",
                                                                          from rack in datacenter.Racks
                                                                          orderby rack.Id
-                                                                         select new XElement("rack",
+                                                                         select
+                                                                         rack == null ? new XElement("") :
+                                                                         new XElement("rack",
                                                                              new XAttribute("id", rack.Id ?? ""),
                                                                              new XAttribute("name", rack.Name ?? ""),
                                                                              new XAttribute("floor", rack.Floor ?? ""),
                                                                              new XAttribute("position", rack.Position ?? ""),
+                                                                             rack.Devices == null ? new XElement("devices") :
                                                                              new XElement("devices",
                                                                                  from device in rack.Devices
                                                                                  orderby device.Id
-                                                                                 select new XElement("device",
+                                                                                 select
+                                                                                 device == null ? new XElement("") :
+                                                                                 new XElement("device",
                                                                                      new XAttribute("id", device.Id ?? ""),
                                                                                      new XAttribute("name", device.Name ?? ""),
                                                                                      new XAttribute("ipaddress", device.IPAddress ?? ""),

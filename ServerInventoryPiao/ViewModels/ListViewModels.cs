@@ -19,7 +19,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(datacenters, (model) => new DataCenterViewModel(model));
+                this.Items = ConvertToListViewMode(datacenters, (model) => new DataCenterViewModel(model), (vm) => vm.ModelInternal);
             }
 
             AddNewCommand = new RelayCommand(() =>
@@ -30,9 +30,7 @@ namespace ServerInventoryPiao.ViewModels
         }
 
         public const string AddNewCommandPropertyName = "AddNewCommand";
-        public const string RemoveCommandPropertyName = "RemoveCommand";
         private ICommand _addNewCommand;
-        private ICommand _removeCommand;
         public ICommand AddNewCommand
         {
             get { return _addNewCommand; }
@@ -45,6 +43,9 @@ namespace ServerInventoryPiao.ViewModels
                 }
             }
         }
+
+        public const string RemoveCommandPropertyName = "RemoveCommand";
+        private ICommand _removeCommand; 
         public ICommand RemoveCommand
         {
             get { return _removeCommand; }
@@ -69,7 +70,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(racks, (model) => new RackViewModel(model));
+                this.Items = ConvertToListViewMode(racks, (model) => new RackViewModel(model), (vm) => vm.ModelInternal);
             }
         }
     }
@@ -84,7 +85,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(devices, (model) => new DeviceViewModel(model));
+                this.Items = ConvertToListViewMode(devices, (model) => new DeviceViewModel(model), (vm) => vm.ModelInternal);
             }
         }
     }
@@ -99,7 +100,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(people, (model) => new PersonViewModel(model));
+                this.Items = ConvertToListViewMode(people, (model) => new PersonViewModel(model), (vm) => vm.ModelInternal);
             }
         }
     }

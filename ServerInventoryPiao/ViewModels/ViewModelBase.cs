@@ -24,6 +24,14 @@ namespace ServerInventoryPiao.ViewModels
         {
             _model = model;
         }
+
+        internal Model ModelInternal
+        {
+            get
+            {
+                return _model;
+            }
+        }
     }
 
 }
