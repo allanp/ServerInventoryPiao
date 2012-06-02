@@ -24,6 +24,19 @@
           <device id="3001" name="computer3001" ipaddress="10.0.3.2" status="shutdown" />
         </devices>
       </rack>
+      <rack id="Unknown Id" name="Undefined Name" floor="" position="">
+        <devices>
+          <device id="Unknown Id" name="Undefined Name" ipaddress="" status="" />
+          <device id="Unknown Id" name="Undefined Name" ipaddress="" status="" />
+        </devices>
+      </rack>
+      <rack id="Unknown Id" name="Undefined Name" floor="" position="">
+        <devices>
+          <device id="1000" name="ups1000" ipaddress="10.0.0.100" status="running" />
+          <device id="Unknown Id" name="Undefined Name" ipaddress="" status="" />
+          <device id="Unknown Id" name="Undefined Name" ipaddress="" status="" />
+        </devices>
+      </rack>
     </racks>
   </datacenter>
   <datacenter id="10" name="datacenter_ein" phone="01-234-5678" address="">

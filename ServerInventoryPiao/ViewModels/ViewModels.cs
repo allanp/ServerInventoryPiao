@@ -57,12 +57,19 @@ namespace ServerInventoryPiao.ViewModels
             ContactPeople = new PersonListViewModel(model.ContactPeople);
             AddNewPersonCommand = new RelayCommand(() =>
             {
-                this.ContactPeople.Add(new PersonViewModel(new Person()));
+                Person newModel = new Person();
+                PersonViewModel newViewModel = new PersonViewModel(newModel);
+
+                if (model.ContactPeople == null)
+                    model.ContactPeople = new List<Person>();
+                model.ContactPeople.Add(newModel);
+
+                this.ContactPeople.Add(newViewModel);
                 RaisePropertyChanged(ContactPeoplePropertyName);
             });
             RemovePersonCommand = new RelayCommand<PersonViewModel>((person) =>
             {
-                if (this.ContactPeople.Remove(person))
+                if (this.ContactPeople.Remove(person) && model.ContactPeople.Remove(person.ModelInternal))
                     RaisePropertyChanged(ContactPeoplePropertyName);
             }, (person) => this.ContactPeople.Contains(person));
 
@@ -70,12 +77,19 @@ namespace ServerInventoryPiao.ViewModels
             Racks = new RackListViewModel(model.Racks);
             AddNewRackCommand = new RelayCommand(() =>
             {
-                this.Racks.Add(new RackViewModel(new RackModel()));
+                var newModel = new RackModel();
+                var newViewModel = new RackViewModel(newModel);
+
+                if (model.Racks == null) 
+                    model.Racks = new List<RackModel>();
+                model.Racks.Add(newModel);
+                
+                this.Racks.Add(newViewModel);
                 RaisePropertyChanged(RacksPropertyName);
             });
             RemoveCommand = new RelayCommand<RackViewModel>((rack) =>
             {
-                if (this.Racks.Remove(rack))
+                if (this.Racks.Remove(rack) && model.Racks.Remove(rack.ModelInternal))
                     RaisePropertyChanged(RacksPropertyName);
             }, (rack) => this.Racks.Contains(rack));
         }
@@ -209,15 +223,27 @@ namespace ServerInventoryPiao.ViewModels
 
             AddNewCommand = new RelayCommand(() =>
                 {
-                    this.Devices.Add(new DeviceViewModel(new DeviceModel()));
+                    if (this.Devices == null)
+                        this.Devices = new DeviceListViewModel(new List<DeviceModel>());
+
+                    DeviceModel newModel = new DeviceModel();
+                    DeviceViewModel newViewModel = new DeviceViewModel(newModel);
+
+                    if (model.Devices == null)
+                        model.Devices = new List<DeviceModel>();
+                    model.Devices.Add(newModel);
+
+                    this.Devices.Add(newViewModel);
                     RaisePropertyChanged(DevicesPropertyName);
                 });
 
             RemoveCommand = new RelayCommand<DeviceViewModel>(
                 (device) =>
                 {
-                    if(this.Devices.Remove(device))
+                    if (this.Devices.Remove(device) && 
+                        model.Devices.Remove(device.ModelInternal))
                         RaisePropertyChanged(DevicesPropertyName);
+
                 }, (device) => this.Devices.Contains(device));
         }
 

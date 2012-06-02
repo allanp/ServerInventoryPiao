@@ -89,44 +89,45 @@ namespace ServerInventoryPiao.ViewModels
         }
 
 
-        protected static ObservableCollection<ViewModel> ConvertToListViewMode(List<Model> models, Func<Model, ViewModel> convertor, Func<ViewModel, Model> reverse)
+        protected static ObservableCollection<ViewModel> ConvertToListViewMode(List<Model> models, Func<Model, ViewModel> getViewModel, Func<ViewModel, Model> getModel)
         {
             if (models == null) throw new ArgumentNullException("models");
-            if (convertor == null) throw new ArgumentNullException("convertor");
+            if (getViewModel == null) throw new ArgumentNullException("getViewModel");
+            if (getModel == null) throw new ArgumentNullException("getModel");
 
             try
             {
                 List<ViewModel> viewModels = new List<ViewModel>();
                 foreach (var m in models)
-                    viewModels.Add(convertor(m));
+                    viewModels.Add(getViewModel(m));
 
                 var collection = new ObservableCollection<ViewModel>(viewModels);
 
-                collection.CollectionChanged += (sender, e) =>
-                {
-                    if (Object.ReferenceEquals(sender, collection))
-                    {
-                        switch (e.Action)
-                        {
-                            case NotifyCollectionChangedAction.Add:
-                                models.Add(reverse((ViewModel)e.NewItems[0]));
-                                break;
-                            case NotifyCollectionChangedAction.Move:
-                                models = (from vm in viewModels select reverse(vm)).ToList();
-                                break;
-                            case NotifyCollectionChangedAction.Remove:
-                                models.Remove(reverse((ViewModel)e.OldItems[0]));
-                                break;
-                            case NotifyCollectionChangedAction.Replace:
-                                break;
-                            case NotifyCollectionChangedAction.Reset:
-                                models = (from vm in viewModels select reverse(vm)).ToList();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                };
+                //collection.CollectionChanged += (sender, e) =>
+                //{
+                //    if (Object.ReferenceEquals(sender, collection))
+                //    {
+                //        switch (e.Action)
+                //        {
+                //            case NotifyCollectionChangedAction.Add:
+                //                models.Add(getModel((ViewModel)e.NewItems[0]));
+                //                break;
+                //            case NotifyCollectionChangedAction.Move:
+                //                models = (from vm in viewModels select getModel(vm)).ToList();
+                //                break;
+                //            case NotifyCollectionChangedAction.Remove:
+                //                models.Remove(getModel((ViewModel)e.OldItems[0]));
+                //                break;
+                //            case NotifyCollectionChangedAction.Replace:
+                //                break;
+                //            case NotifyCollectionChangedAction.Reset:
+                //                models = (from vm in viewModels select getModel(vm)).ToList();
+                //                break;
+                //            default:
+                //                break;
+                //        }
+                //    }
+                //};
                 return collection;
             }
             catch
