@@ -30,11 +30,11 @@
                     <ContextMenu>
                         <MenuItem Header="Rack">
                             <MenuItem Header="Add" Command="{Binding AddNewRackCommand}" />
-                            <MenuItem Header="Remove" Command="{Binding RemoveRackCommand}" CommandParameter="{Binding }"/>
+                            <!--<MenuItem Header="Remove" Command="{Binding RemoveRackCommand}" CommandParameter="{Binding }"/>-->
                         </MenuItem>
                         <MenuItem Header="Person">
                             <MenuItem Header="Add" Command="{Binding AddNewPersonCommand}" />
-                            <MenuItem Header="Remove" Command="{Binding RemovePersonCommand}" CommandParameter="{Binding }"/>
+                            <!--<MenuItem Header="Remove" Command="{Binding RemovePersonCommand}" CommandParameter="{Binding }"/>-->
                         </MenuItem>
                     </ContextMenu>
                 </ContentControl.ContextMenu>
@@ -46,7 +46,7 @@
                 <ContentControl.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add a new device" Command="{Binding AddNewCommand}" />
-                        <MenuItem Header="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding }"/>
+                        <!--<MenuItem Header="Remove" Command="{Binding RemoveCommand}" CommandParameter="{Binding }"/>-->
                     </ContextMenu>
                 </ContentControl.ContextMenu>
             </ContentControl>

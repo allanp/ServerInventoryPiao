@@ -89,46 +89,20 @@ namespace ServerInventoryPiao.ViewModels
         }
 
 
-        protected static ObservableCollection<ViewModel> ConvertToListViewMode(List<Model> models, Func<Model, ViewModel> getViewModel, Func<ViewModel, Model> getModel)
+        protected static ObservableCollection<ViewModel> ConvertToListViewMode(List<Model> models, Converter<Model, ViewModel> converter)
         {
             if (models == null) throw new ArgumentNullException("models");
-            if (getViewModel == null) throw new ArgumentNullException("getViewModel");
-            if (getModel == null) throw new ArgumentNullException("getModel");
+            if (converter == null) throw new ArgumentNullException("converter");
 
             try
             {
-                List<ViewModel> viewModels = new List<ViewModel>();
-                foreach (var m in models)
-                    viewModels.Add(getViewModel(m));
+                return new ObservableCollection<ViewModel>(models.ConvertAll<ViewModel>(converter));
 
-                var collection = new ObservableCollection<ViewModel>(viewModels);
+                //List<ViewModel> viewModels = new List<ViewModel>();
+                //foreach (var m in models)
+                //    viewModels.Add(getViewModel(m));
 
-                //collection.CollectionChanged += (sender, e) =>
-                //{
-                //    if (Object.ReferenceEquals(sender, collection))
-                //    {
-                //        switch (e.Action)
-                //        {
-                //            case NotifyCollectionChangedAction.Add:
-                //                models.Add(getModel((ViewModel)e.NewItems[0]));
-                //                break;
-                //            case NotifyCollectionChangedAction.Move:
-                //                models = (from vm in viewModels select getModel(vm)).ToList();
-                //                break;
-                //            case NotifyCollectionChangedAction.Remove:
-                //                models.Remove(getModel((ViewModel)e.OldItems[0]));
-                //                break;
-                //            case NotifyCollectionChangedAction.Replace:
-                //                break;
-                //            case NotifyCollectionChangedAction.Reset:
-                //                models = (from vm in viewModels select getModel(vm)).ToList();
-                //                break;
-                //            default:
-                //                break;
-                //        }
-                //    }
-                //};
-                return collection;
+                //return new ObservableCollection<ViewModel>(viewModels);
             }
             catch
             {

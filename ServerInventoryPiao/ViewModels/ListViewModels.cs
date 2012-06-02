@@ -19,7 +19,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(datacenters, (model) => new DataCenterViewModel(model), (vm) => vm.ModelInternal);
+                this.Items = ConvertToListViewMode(datacenters, (model) => new DataCenterViewModel(model));
             }
 
             AddNewCommand = new RelayCommand(() =>
@@ -70,7 +70,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(racks, (model) => new RackViewModel(model), (vm) => vm.ModelInternal);
+                this.Items = ConvertToListViewMode(racks, (model) => new RackViewModel(model));
             }
         }
     }
@@ -85,7 +85,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(devices, (model) => new DeviceViewModel(model), (vm) => vm.ModelInternal);
+                this.Items = ConvertToListViewMode(devices, (model) => new DeviceViewModel(model));
             }
         }
     }
@@ -100,7 +100,7 @@ namespace ServerInventoryPiao.ViewModels
             }
             else
             {
-                this.Items = ConvertToListViewMode(people, (model) => new PersonViewModel(model), (vm) => vm.ModelInternal);
+                this.Items = ConvertToListViewMode(people, (model) => new PersonViewModel(model));
             }
         }
     }
