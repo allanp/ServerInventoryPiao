@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ServerInventoryPiao.Models;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ServerInventoryPiao.Controllers;
 using System.Windows.Input;
+using ServerInventoryPiao.Controllers;
+using ServerInventoryPiao.Models;
 
 namespace ServerInventoryPiao.ViewModels
 {

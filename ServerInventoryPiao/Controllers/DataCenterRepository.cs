@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.IO;
-using ServerInventoryPiao.Models;
 using System.Xml.Linq;
-using System.Windows.Resources;
-using System.Windows;
+using ServerInventoryPiao.Models;
 using ServerInventoryPiao.Views;
 
 namespace ServerInventoryPiao.Controllers
@@ -45,8 +43,6 @@ namespace ServerInventoryPiao.Controllers
 
         public bool ConatinsDataCenter(DataCenterModel datacenter)
         {
-            // if (datacenter == null) throw new ArgumentNullException("datacenter");
-
             return _datacenters.Contains(datacenter);
         }
 
