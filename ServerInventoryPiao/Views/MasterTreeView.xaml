@@ -30,7 +30,7 @@
                     <ContextMenu>
                         <MenuItem Header="Rack">
                             <MenuItem Header="Add" Command="{Binding AddNewRackCommand}" />
-                            <!--<MenuItem Header="Remove" Command="{Binding RemoveRackCommand}" CommandParameter="{Binding }"/>-->
+                            <MenuItem Header="Remove" Command="{Binding RemoveRackCommand}" CommandParameter="{Binding }"/>
                         </MenuItem>
                         <MenuItem Header="Person">
                             <MenuItem Header="Add" Command="{Binding AddNewPersonCommand}" />

@@ -45,12 +45,21 @@ namespace ServerInventoryPiao.Controllers
             _canAction = canAction;
         }
 
+        public RelayCommand(Action<ViewModels.PersonViewModel> action, Func<ViewModels.PersonViewModel, bool> func)
+        {
+            // TODO: Complete member initialization
+            this.action = action;
+            this.func = func;
+        }
+
         public bool CanExecute(object parameter)
         {
             return _canAction == null ? true : _canAction((T)parameter);
         }
 
         public event EventHandler CanExecuteChanged;
+        private Action<ViewModels.PersonViewModel> action;
+        private Func<ViewModels.PersonViewModel, bool> func;
 
         public void Execute(object parameter)
         {

@@ -63,12 +63,15 @@ namespace ServerInventoryPiao.ViewModels
 
                 this.ContactPeople.Add(newViewModel);
                 RaisePropertyChanged(ContactPeoplePropertyName);
+
+                //TODO: make the new person editable
             });
-            RemovePersonCommand = new RelayCommand<PersonViewModel>((person) =>
-            {
-                if (this.ContactPeople.Remove(person) && model.ContactPeople.Remove(person.ModelInternal))
-                    RaisePropertyChanged(ContactPeoplePropertyName);
-            }, (person) => this.ContactPeople.Contains(person));
+            //RemovePersonCommand = new RelayCommand<PersonViewModel>((person) =>
+            //{
+            //    //if (this.ContactPeople.Remove(person) && model.ContactPeople.Remove(person.ModelInternal))
+            //    //    RaisePropertyChanged(ContactPeoplePropertyName);
+
+            //}, (person) => this.ContactPeople.Contains(person));
 
 
             Racks = new RackListViewModel(model.Racks);
@@ -84,11 +87,16 @@ namespace ServerInventoryPiao.ViewModels
                 this.Racks.Add(newViewModel);
                 RaisePropertyChanged(RacksPropertyName);
             });
-            RemoveCommand = new RelayCommand<RackViewModel>((rack) =>
-            {
-                if (this.Racks.Remove(rack) && model.Racks.Remove(rack.ModelInternal))
-                    RaisePropertyChanged(RacksPropertyName);
-            }, (rack) => this.Racks.Contains(rack));
+            //RemoveCommand = new RelayCommand<DataCenterViewModel>((datacenter) =>
+            //{
+            //    if (object.ReferenceEquals(datacenter, this))
+            //    {
+            //        ;// remove itself from its parent(datacenterlist)
+            //    }
+
+            //    //if (this.Racks.Remove(rack) && model.Racks.Remove(rack.ModelInternal))
+            //    //    RaisePropertyChanged(RacksPropertyName);
+            //}, (datacenter) => datacenter != null);
         }
 
         public string Address
@@ -234,14 +242,11 @@ namespace ServerInventoryPiao.ViewModels
                     RaisePropertyChanged(DevicesPropertyName);
                 });
 
-            RemoveCommand = new RelayCommand<DeviceViewModel>(
-                (device) =>
-                {
-                    if (this.Devices.Remove(device) && 
-                        model.Devices.Remove(device.ModelInternal))
-                        RaisePropertyChanged(DevicesPropertyName);
-
-                }, (device) => this.Devices.Contains(device));
+            //RemoveCommand = new RelayCommand<RackViewModel>(
+            //    (rack) =>
+            //    {
+            //        // remove itself from its parent(datacenter.Racks) - [both viewmodel and model]
+            //    }, (rack) => object.ReferenceEquals(this, rack));
         }
 
         public string Floor
@@ -325,6 +330,12 @@ namespace ServerInventoryPiao.ViewModels
         public DeviceViewModel(DeviceModel model)
             : base(model)
         {
+            //RemoveCommand = new RelayCommand<DeviceViewModel>(
+            //    (device) =>
+            //    {
+            //        // remove itself from its parent(rack.Devices) - [both viewmodel and model]
+
+            //    }, (device) => object.ReferenceEquals(this, device));
         }
 
         public string IPAddress
@@ -351,6 +362,21 @@ namespace ServerInventoryPiao.ViewModels
                 }
             }
         }
+
+        public const string RemoveCommandPropertyName = "RemoveCommand";
+        private ICommand _removeCommand;
+        public ICommand RemoveCommand
+        {
+            get { return _removeCommand; }
+            set
+            {
+                if (_removeCommand != value)
+                {
+                    _removeCommand = value;
+                    RaisePropertyChanged(RemoveCommandPropertyName);
+                }
+            }
+        }
     }
 
     public class PersonViewModel : ViewModelBase<Person>
@@ -360,8 +386,15 @@ namespace ServerInventoryPiao.ViewModels
         public const string PhonePropertyName = "Phone";
         public const string EmailPropertyName = "Email";
 
-        public PersonViewModel(Person person) : base(person)
+        public PersonViewModel(Person person)
+            : base(person)
         {
+            //RemoveCommand = new RelayCommand<PersonViewModel>(
+            //(model) =>
+            //{
+            //    // remove itself from its parent(rack.Devices) - [both viewmodel and model]
+
+            //}, (model) => object.ReferenceEquals(this, model));
         }
 
         public string FirstName
@@ -413,5 +446,19 @@ namespace ServerInventoryPiao.ViewModels
             }
         }
 
+        public const string RemoveCommandPropertyName = "RemoveCommand";
+        private ICommand _removeCommand;
+        public ICommand RemoveCommand
+        {
+            get { return _removeCommand; }
+            set
+            {
+                if (_removeCommand != value)
+                {
+                    _removeCommand = value;
+                    RaisePropertyChanged(RemoveCommandPropertyName);
+                }
+            }
+        }
     }
 }
