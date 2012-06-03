@@ -8,7 +8,7 @@
         SizeToContent="Width"  WindowStyle="ThreeDBorderWindow"
         MinHeight="287" MinWidth="724" MaxWidth="724"
         Title="{Binding WindowTitle}"
-        Icon="../Resources/TravsysLogo.jpg"
+        Icon="../Resources/TravsysLogo.jpg" 
         >
     <Window.Resources>
         <ResourceDictionary Source="../Resources/Styles.xaml" />
