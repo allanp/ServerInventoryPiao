@@ -6,21 +6,19 @@
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="Grid.IsSharedSizeScope" Value="True"/>
+        <Setter Property="Grid.IsSharedSizeScope" Value="False" />
         <Setter Property="TextAlignment" Value="Right" />
     </Style>
 
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Margin" Value="3"/>
         <Setter Property="Padding" Value="3"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-
+    
     <DataTemplate DataType="{x:Type vm:RackListViewModel}">
         <ListView ItemsSource="{Binding }">
             <ListView.View>
-                <GridView>
+                <GridView AllowsColumnReorder="False" >
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path=Id}" />
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding  Path=Name}" />
                     <GridViewColumn Header="Floor" DisplayMemberBinding="{Binding Path=Floor}" />
@@ -28,47 +26,60 @@
                     <GridViewColumn Header="Devices" DisplayMemberBinding="{Binding Path=Devices.Count}" />
                 </GridView>
             </ListView.View>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical" IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </ListView>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:DeviceListViewModel}">
         <ListView ItemsSource="{Binding }">
             <ListView.View>
-                <GridView>
+                <GridView AllowsColumnReorder="False">
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path=Id}" />
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" />
                     <GridViewColumn Header="IP Adress" DisplayMemberBinding="{Binding Path=IPAddress}" />
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path=Status}" />
                 </GridView>
             </ListView.View>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical" IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </ListView>
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:PersonListViewModel}">
-        <StackPanel>
-            <ListView ItemsSource="{Binding }">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=FirstName}" />
-                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=LastName}" />
-                        <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Path=Phone}" />
-                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Path=Email}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
+        <ListView ItemsSource="{Binding }">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=FirstName}" />
+                    <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=LastName}" />
+                    <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Path=Phone}" />
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Path=Email}" />
+                </GridView>
+            </ListView.View>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical" IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type vm:DataCenterViewModel}">
-        <Grid>
+        <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
             <!--
@@ -77,18 +88,18 @@
         public List<Person> ContactPeople { get; set; }
         public List<RackModel> Racks { get; set; }
             -->
-            
-            <TextBlock Text="Id:" Grid.Column="0" Grid.Row="0" />
-            <TextBlock Text="Name:" Grid.Column="0" Grid.Row="1" />
-            <TextBlock Text="Address:" Grid.Column="0" Grid.Row="2" />
-            <TextBlock Text="Contact People:" Grid.Column="0" Grid.Row="3" />
-            <TextBlock Text="Racks:" Grid.Column="0" Grid.Row="4" />
-            
-            <TextBox Text="{Binding Id}" Grid.Column="1" Grid.Row="0" />
-            <TextBox Text="{Binding Name}" Grid.Column="1" Grid.Row="1" />
-            <TextBox Text="{Binding Address}" Grid.Column="1" Grid.Row="2" />
-            <ContentControl Content="{Binding ContactPeople}" Grid.Column="1" Grid.Row="3" />
-            <ContentControl Content="{Binding Racks}" Grid.Column="1" Grid.Row="4" />
+
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Id:"/>
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Name:"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Address:" />
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="Contact People:" />
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Racks:" />
+
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Address}" />
+            <ContentControl Grid.Column="1" Grid.Row="3" Content="{Binding ContactPeople}" />
+            <ContentControl Grid.Column="1" Grid.Row="4" Content="{Binding Racks}" />
         </Grid>
     </DataTemplate>
 
@@ -99,11 +110,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!--
@@ -112,17 +123,17 @@
         public List<DeviceModel> Devices { get; set; }
             -->
 
-            <TextBlock Text="Id:" Grid.Column="0" Grid.Row="0" />
-            <TextBlock Text="Name:" Grid.Column="0" Grid.Row="1" />
-            <TextBlock Text="Floor:" Grid.Column="0" Grid.Row="2" />
-            <TextBlock Text="Position:" Grid.Column="0" Grid.Row="3" />
-            <TextBlock Text="Devices:" Grid.Column="0" Grid.Row="4" />
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Id:" />
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Name:" />
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Floor:" />
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="Position:" />
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Devices:" />
 
-            <TextBox Text="{Binding Id}" Grid.Column="1" Grid.Row="0" />
-            <TextBox Text="{Binding Name}" Grid.Column="1" Grid.Row="1" />
-            <TextBox Text="{Binding Floor}" Grid.Column="1" Grid.Row="2" />
-            <TextBox Text="{Binding Position}" Grid.Column="1" Grid.Row="3" />
-            <ContentControl Content="{Binding Devices}" Grid.Column="1" Grid.Row="4" />
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Floor}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Position}" />
+            <ContentControl Grid.Column="1" Grid.Row="4" Content="{Binding Devices}" />
         </Grid>
     </DataTemplate>
 
@@ -133,10 +144,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!--
@@ -144,15 +155,15 @@
         public string Status { get; set; }
             -->
 
-            <TextBlock Text="Id:" Grid.Column="0" Grid.Row="0" />
-            <TextBlock Text="Name:" Grid.Column="0" Grid.Row="1" />
-            <TextBlock Text="IPAddress:" Grid.Column="0" Grid.Row="2" />
-            <TextBlock Text="Status:" Grid.Column="0" Grid.Row="3" />
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Id:" />
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Name:" />
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="IPAddress:" />
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="Status:" />
 
-            <TextBox Text="{Binding Id}" Grid.Column="1" Grid.Row="0" />
-            <TextBox Text="{Binding Name}" Grid.Column="1" Grid.Row="1" />
-            <TextBox Text="{Binding IPAddress}" Grid.Column="1" Grid.Row="2" />
-            <TextBox Text="{Binding Status}" Grid.Column="1" Grid.Row="3" />
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}" />
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}" />
+            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding IPAddress}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Status}" />
 
         </Grid>
     </DataTemplate>

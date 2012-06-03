@@ -7,7 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerInventory.Test", "Ser
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AAA50B0-0D27-46F2-9A97-D5F15702A034}"
 	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
 		ServerInventoryPiao.vsmdi = ServerInventoryPiao.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection

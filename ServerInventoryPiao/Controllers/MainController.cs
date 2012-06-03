@@ -10,10 +10,23 @@ namespace ServerInventoryPiao.Controllers
     {
         public const string DefaultXmlFileName = "datacenters.xml";
 
+        private const string CompanyString = "software solutions";
+        private const string TravSys = "Travsys Servers Inventory";
+
         private IFileDialogView _fileDialog = null;
         private DataCenterRepository _dataCenterRepository;
 
-        public string Title { get; set; }
+        private string _loadedFileName = string.Empty;
+
+        public string Title
+        {
+            get
+            {
+                return _loadedFileName == string.Empty ?
+                    string.Format("{0} - {1}", TravSys, CompanyString) :
+                    string.Format("{0} \"{1}\" is loaded.", TravSys, _loadedFileName);
+            }
+        }
         public string XmlFileName { get; set; }
 
         public ICommand LoadCommand { get; set; }
@@ -26,7 +39,6 @@ namespace ServerInventoryPiao.Controllers
 
         private MainController()
         {
-            Title = "Server Inventory";
             LoadCommand = new RelayCommand(OnLoad, CanLoad);
             SaveCommand = new RelayCommand(OnSave, CanSave);
         }
@@ -54,6 +66,8 @@ namespace ServerInventoryPiao.Controllers
                 if (_fileDialog.ShowDialog() == true && _fileDialog.FileNames != null && _fileDialog.FileNames.Length > 0)
                 {
                     this._dataCenterRepository = new DataCenterRepository(_fileDialog.FileNames[0]);
+                    _loadedFileName = _fileDialog.FileNames[0];
+
                     if (OnDataCentersLoaded != null)
                         OnDataCentersLoaded(this, EventArgs.Empty);
                 }
@@ -77,5 +91,7 @@ namespace ServerInventoryPiao.Controllers
         {
             return this._dataCenterRepository != null;
         }
+
+        public object[] LoadedFileName { get; set; }
     }
 }

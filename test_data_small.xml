@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <datacenters>
-  <datacenter id="0" name="datacenter_ams" phone="01-234-5678">
+  <datacenter id="0" name="datacenter_ams" phone="01-234-5678" address="amsterdam science park">
     <contactpeople>
       <person firstname="John" lastname="Smith" phone="01-234-5678" email="john.smith@email.com" />
     </contactpeople>

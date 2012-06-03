@@ -5,6 +5,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         mc:Ignorable="d" 
         d:DesignHeight="300" d:DesignWidth="400"
+        SizeToContent="Width"  WindowStyle="ThreeDBorderWindow"
+        MinHeight="287" MinWidth="724" MaxWidth="724"
+        Title="{Binding WindowTitle}"
+        Icon="../Resources/TravsysLogo.jpg"
         >
     <Window.Resources>
         <ResourceDictionary Source="../Resources/Styles.xaml" />
@@ -12,8 +16,24 @@
     <Grid>
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="Auto">
-                <Button Command="{Binding LoadCommand}" Content="Load" />
-                <Button Command="{Binding SaveCommand}" Content="Save" />
+                <TextBlock Margin="2,6">
+                    <Hyperlink Command="{Binding Path=LoadCommand}">
+                        <TextBlock Text="Load">
+                            <TextBlock.ToolTip>
+                                Click here to load an inventory setting from a xml file.
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="2,6">
+                    <Hyperlink Command="{Binding Path=SaveCommand}">
+                        <TextBlock Text="Save">
+                            <TextBlock.ToolTip>
+                                Click here to save the inventory setting to a xml file.
+                            </TextBlock.ToolTip>
+                        </TextBlock>
+                    </Hyperlink>
+                </TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <ContentControl Content="{Binding DataCenters}" Margin="3" Padding="3" />

@@ -2,6 +2,7 @@
 using ServerInventoryPiao.Controllers;
 using ServerInventoryPiao.ViewModels;
 using ServerInventoryPiao.Views;
+using ServerInventoryPiao.Properties;
 
 namespace ServerInventoryPiao
 {
@@ -17,7 +18,7 @@ namespace ServerInventoryPiao
             base.OnStartup(e);
 
             _mainView = new MainWindow();
-            
+
             _mainView.DataContext = new MainViewModel(new DataCenterRepository());
 
             _mainView.Show();
@@ -33,5 +34,6 @@ namespace ServerInventoryPiao
             _mainView.DataContext = null;
             _mainView = null;
         }
+
     }
 }

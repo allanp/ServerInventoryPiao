@@ -5,23 +5,23 @@ namespace ServerInventoryPiao.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public const string TitlePropertyName = "Title";
+        public const string WindowTitlePropertyName = "WindowTitle";
         public const string DataCentersPropertyName = "DataCenters";
         
         private MainController _mainController;
 
-        private string _title;
+        private string _windowTitle;
         private DataCenterListViewModel _datacenters;
-        
-        public string Title
+
+        public string WindowTitle
         {
-            get { return _title; }
+            get { return _windowTitle; }
             set
             {
-                if (value != _title)
+                if (value != _windowTitle)
                 {
-                    _title = value;
-                    RaisePropertyChanged(TitlePropertyName);
+                    _windowTitle = value;
+                    RaisePropertyChanged(WindowTitlePropertyName);
                 }
             }
         }
@@ -56,9 +56,11 @@ namespace ServerInventoryPiao.ViewModels
             _mainController.OnDataCentersLoaded += delegate
             {
                 DataCenters = new DataCenterListViewModel(_mainController.LoadDataCenter());
+
+                WindowTitle = _mainController.Title; 
             };
 
-            Title = _mainController.Title;
+            WindowTitle = _mainController.Title; 
         }
     }
 }
